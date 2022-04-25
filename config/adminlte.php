@@ -247,9 +247,9 @@ return [
             'can'  => 'manage-blog',
         ], */
         [
-            'text'        => 'pages',
+            'text'        => 'Subir folios',
             'url'         => 'import',
-            'icon'        => 'far fa-fw fa-file',
+            'icon'        => 'fas fa-fw fa-file-upload',
         ],
 /*         ['header' => 'account_settings'],
         [
