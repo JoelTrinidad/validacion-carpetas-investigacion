@@ -2,6 +2,8 @@
 @section('content')
     <div class="col-6 mx-auto pt-4">
 
+        <div class="loader"></div>
+
         <div class="card">
             <div class="card-header text-center">
                 Validación de Carpetas de Investigación
@@ -63,6 +65,22 @@
     </div>
 @stop
 
+@section('css')
+    <style>
+        .loader {
+            display: none;
+            position: fixed;
+            left: 0px;
+            top: 0px;
+            width: 100%;
+            height: 100%;
+            z-index: 3;
+            background: url('images/loading.gif') 50% 50% no-repeat rgb(249,249,249);
+            opacity: .9;
+        }
+    </style>
+@stop
+
 @section('js')
     <script>
     $(function () {
@@ -71,6 +89,8 @@
         $('#sendButton').click(sendForm);
         
         function sendForm() {
+            $('.loader').show()
+            $('#importModal').modal('hide')
             const file = $('#file').prop("files");
             const formData = new FormData($('#excelForm')[0])
             formData.append('file', file[0])
@@ -81,6 +101,7 @@
                 processData: false,
                 contentType: false,
                 success: function(res){
+                    $('.loader').hide();
                     console.log(res);
                 }
             })
