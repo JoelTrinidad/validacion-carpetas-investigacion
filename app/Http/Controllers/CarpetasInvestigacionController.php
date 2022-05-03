@@ -37,15 +37,25 @@ class CarpetasInvestigacionController extends Controller
             #validacion de num de columnas
             if (sizeof($collection[1]) == 1) {
                 $numRows = sizeof($collection);
-                return $collection;
-                for ($row=1; $row < $numRows; $row++) { 
+                /* for ($row=1; $row < $numRows; $row++) { 
                     try {
                         var_dump($collection[$row]);
                     } catch (\Exception $e) {
                         return redirect()->back()
                                 ->with(['errors'=>$e -> getMessage()]);
                     }
-                }
+                } */
+                return 'hola mundo';
+                $response = Http::withHeaders([
+                    'Accept-Encoding' => 'gzip, deflate, br',
+                    'Content-Type' => 'application/json',
+                    'Accept' => 'application/json',
+                    'Connection' => 'keep-alive',
+                    'DNT' => '1',
+                    'Origin' => 'http://10.250.109.35:8000'
+                ])->post('http://10.250.109.35:8000/graphql', [
+                    'query' => 'query {consultaWS(carpeta:\"CI-FIIZP/IZP-6/UI-2 C/D/05211/10-2021\"){ingresa}}',
+                ]);
             } else {
                 return redirect()->back()
                         ->with(['errors'=>[0 => 'Please provide data in file no more than 1 colum.']]);
