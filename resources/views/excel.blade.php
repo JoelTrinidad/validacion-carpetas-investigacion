@@ -56,9 +56,35 @@
                 </div>
                 <div class="modal-footer justify-content-center">
                     <button type="button" class="btn btn-secondary px-4" data-dismiss="modal">No</button>
-                    <button type="submit" form="excelForm" class="btn btn-success px-4">Si</button>
+                    <button type="button" id="sendButton" form="excelForm" class="btn btn-success px-4">Si</button>
                 </div>
             </div>
         </div>
     </div>
+@stop
+
+@section('js')
+    <script>
+    $(function () {
+        const token = $('input[name="_token"]').val()
+
+        $('#sendButton').click(sendForm);
+        
+        function sendForm() {
+            const file = $('#file').prop("files");
+            const formData = new FormData($('#excelForm')[0])
+            formData.append('file', file[0])
+            $.ajax({
+                url: `${window.location.pathname}`, 
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(res){
+                    console.log(res);
+                }
+            })
+        }
+    });
+    </script>
 @stop

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Http;
 /* use Illuminate\Support\Facades\Validator; */
 use Validator;
 use Importer;
@@ -36,6 +37,7 @@ class CarpetasInvestigacionController extends Controller
             #validacion de num de columnas
             if (sizeof($collection[1]) == 1) {
                 $numRows = sizeof($collection);
+                return $collection;
                 for ($row=1; $row < $numRows; $row++) { 
                     try {
                         var_dump($collection[$row]);
