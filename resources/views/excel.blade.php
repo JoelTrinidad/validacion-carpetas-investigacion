@@ -56,9 +56,31 @@
                 </div>
                 <div class="modal-footer justify-content-center">
                     <button type="button" class="btn btn-secondary px-4" data-dismiss="modal">No</button>
-                    <button type="submit" form="excelForm" class="btn btn-success px-4">Si</button>
+                    <button type="button" id="sendButton" form="excelForm" class="btn btn-success px-4">Si</button>
                 </div>
             </div>
         </div>
     </div>
+@stop
+
+@section('js')
+    <script>
+    $(function () {
+        const token = $('input[name="_token"]').val()
+
+        $('#sendButton').click(sendForm);
+
+        function sendForm() {
+            fetch(`${window.location.pathname}/ajax`, {
+                method : 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    "X-CSRF-Token": token
+                }
+            }).then(res => res.text()).then(res => {
+                console.log(res);
+            })
+        }
+    });
+    </script>
 @stop

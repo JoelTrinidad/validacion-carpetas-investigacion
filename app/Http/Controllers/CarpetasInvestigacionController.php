@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Http;
 /* use Illuminate\Support\Facades\Validator; */
 use Validator;
 use Importer;
@@ -54,5 +55,9 @@ class CarpetasInvestigacionController extends Controller
                     ->with(['errors'=>$validator->errors()->all()]);
         }
         
+    }
+    public function ajax(){
+        $promise = Http::get('http://httpbin.org/get');
+        return $promise;
     }
 }
