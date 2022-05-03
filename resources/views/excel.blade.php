@@ -69,16 +69,20 @@
         const token = $('input[name="_token"]').val()
 
         $('#sendButton').click(sendForm);
-
+        
         function sendForm() {
-            fetch(`${window.location.pathname}/ajax`, {
-                method : 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    "X-CSRF-Token": token
+            const file = $('#file').prop("files");
+            const formData = new FormData($('#excelForm')[0])
+            formData.append('file', file[0])
+            $.ajax({
+                url: `${window.location.pathname}`, 
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(res){
+                    console.log(res);
                 }
-            }).then(res => res.text()).then(res => {
-                console.log(res);
             })
         }
     });

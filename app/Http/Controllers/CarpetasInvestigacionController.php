@@ -37,6 +37,7 @@ class CarpetasInvestigacionController extends Controller
             #validacion de num de columnas
             if (sizeof($collection[1]) == 1) {
                 $numRows = sizeof($collection);
+                return $collection;
                 for ($row=1; $row < $numRows; $row++) { 
                     try {
                         var_dump($collection[$row]);
@@ -55,9 +56,5 @@ class CarpetasInvestigacionController extends Controller
                     ->with(['errors'=>$validator->errors()->all()]);
         }
         
-    }
-    public function ajax(){
-        $promise = Http::get('http://httpbin.org/get');
-        return $promise;
     }
 }
