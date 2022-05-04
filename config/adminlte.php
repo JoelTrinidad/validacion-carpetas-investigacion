@@ -248,14 +248,15 @@ return [
             'can'  => 'manage-blog',
         ], */
         [
-            'text'        => 'Agregar usuario',
-            'route'         => 'register',
-            'icon'        => 'fas fa-fw fa-user-plus',
+            'text' => 'Agregar usuario',
+            'can' => 'administrador',
+            'route' => 'register',
+            'icon' => 'fas fa-fw fa-user-plus',
         ],
         [
-            'text'        => 'Subir folios',
-            'url'         => 'import',
-            'icon'        => 'fas fa-fw fa-file-upload',
+            'text' => 'Subir folios',
+            'url' => 'import',
+            'icon' => 'fas fa-fw fa-file-upload',
         ],
 /*         ['header' => 'account_settings'],
         [
