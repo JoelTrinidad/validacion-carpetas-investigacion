@@ -1,6 +1,7 @@
 <?php
 
 use App\User;
+use App\Role;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
@@ -13,23 +14,22 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        $users = [
-            [
-                'dependencia' => 'c5',
-                'curp' => 'MAHJ280603MSPRRV09',
-                'email' => 'ejemplo@yopmail.com',
-                'oficio_alta' => 'oficio de alta',
-                'password' => '0123456789',
-            ],
-        ];
-        foreach ($users as $user) {
-            User::create([
-                'dependencia' => $user['dependencia'],
-                'curp' => $user['curp'],
-                'email' => $user['email'],
-                'oficio_alta' => $user['oficio_alta'],
-                'password' => Hash::make($user['password']),
-            ]);
-        }
+        $administrador_role = Role::where('name', 'administrador')->first();
+
+        $sistemas_user = User::create([
+            'dependencia' => 'c5',
+            'curp' => 'MAHJ280603MSPRRV09',
+            'email' => 'admin@yopmail.com',
+            'oficio_alta' => 'oficio de alta',
+            'password' => Hash::make('admin1234'),
+        ]);
+        $regular_user = User::create([
+            'dependencia' => 'ssc',
+            'curp' => 'ROVI490617HSPDSS05',
+            'email' => 'user@yopmail.com',
+            'oficio_alta' => 'oficio de alta',
+            'password' => Hash::make('user1234'),
+        ]);
+        $sistemas_user->roles()->attach($administrador_role);
     }
 }
