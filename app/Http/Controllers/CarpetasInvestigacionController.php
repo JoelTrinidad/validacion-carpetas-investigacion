@@ -79,6 +79,8 @@ class CarpetasInvestigacionController extends Controller
 
     public function ajax(Request $request){
         $savePath = public_path('/upload/');
+        $filename = '20220504_203944-Carpeta investigacion prueba';
+        $downloadPath = public_path('/download/');
         $response = Http::get('https://jsonplaceholder.typicode.com/posts/1/comments');
         $httpData = array_map( function ($data){ return $data['body'];},$response->json());
         array_unshift($httpData, 'Carpeta de Inversigación');
@@ -91,7 +93,8 @@ class CarpetasInvestigacionController extends Controller
         $collection = collect($excelData);
         $excel = Exporter::make('Csv');
         $excel->load($collection);
-        return $excel->stream('20220504_203944-Carpeta investigacion prueba.csv');
+        $excel->save($downloadPath . $filename .'.csv');
+        return response()->download($downloadPath . $filename .'.csv', $filename.'.csv', ['File-Name' =>  $filename . '.csv'])->deleteFileAfterSend();
         
     }
 }
