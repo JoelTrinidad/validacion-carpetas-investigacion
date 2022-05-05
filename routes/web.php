@@ -21,3 +21,5 @@ Route::get('/', 'HomeController@index')->name('home');
 
 Route::get('/import','CarpetasInvestigacionController@importFile')->name('import');
 Route::post('/import','CarpetasInvestigacionController@importExcel');
+Route::post('/import/ajax','CarpetasInvestigacionController@ajax');
+Route::get('/import/ajax','CarpetasInvestigacionController@ajax');

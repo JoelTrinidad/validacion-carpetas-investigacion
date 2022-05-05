@@ -85,7 +85,14 @@
     <script>
     $(function () {
         const token = $('input[name="_token"]').val()
-
+        $.ajax({
+                url: `${window.location.pathname}/ajax`, 
+                type: 'POST',
+                data: {id:1, _token:token},
+                success: function(res){
+                    console.log(res);
+                }
+        })
         $('#sendButton').click(sendForm);
         
         function sendForm() {
