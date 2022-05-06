@@ -35,26 +35,23 @@ class CarpetasInvestigacionController extends Controller
             #leyendo archivo
             $excel = Importer::make('Excel');
             $excel -> load($savePath . $fileName);
-            $collection = $excel->getCollection();
+            $collection = $excel->getCollection()->toArray();
             #validacion de num de columnas
             if (sizeof($collection[1]) == 1) {
                 $numRows = sizeof($collection);
-                /* for ($row=1; $row < $numRows; $row++) { 
-                    try {
-                        var_dump($collection[$row]);
-                    } catch (\Exception $e) {
-                        return redirect()->back()
-                                ->with(['errors'=>$e -> getMessage()]);
-                    }
-                } */
-/*                 $response = Http::withHeaders([
-                    'Content-type' => 'application/json; charset=UTF-8',
-                ])->post('https://jsonplaceholder.typicode.com/posts', [
-                    'title' => 'foo',
-                    'body' => 'bar',
-                    'userId' => 1,
-                ]); */
-                return 'hola mundo';
+                $fileName =  basename($fileName, '.'.pathinfo($fileName, PATHINFO_EXTENSION));
+                $downloadPath = public_path('/download/');
+                $response = Http::get('https://jsonplaceholder.typicode.com/posts/1/comments');
+                $httpData = array_map( function ($data){ return $data['body'];},$response->json());
+                array_unshift($httpData, 'Carpeta de Inversigación');
+                for ($row=0; $row < $numRows; $row++) { 
+                    $collection[$row][]= $httpData[$row];
+                }
+                $newCollection = collect($collection);
+                $excel = Exporter::make('Csv');
+                $excel->load($newCollection);
+                $excel->save($downloadPath . $fileName .'.csv');
+                return response()->download($downloadPath . $fileName .'.csv', $fileName.'.csv', ['File-Name' =>  $fileName . '.csv'])->deleteFileAfterSend();
                 /* $response = Http::withHeaders([
                     'Accept-Encoding' => 'gzip, deflate, br',
                     'Content-Type' => 'application/json',
@@ -74,27 +71,6 @@ class CarpetasInvestigacionController extends Controller
             return redirect()->back()
                     ->with(['errors'=>$validator->errors()->all()]);
         }
-        
-    }
-
-    public function ajax(Request $request){
-        $savePath = public_path('/upload/');
-        $filename = '20220504_203944-Carpeta investigacion prueba';
-        $downloadPath = public_path('/download/');
-        $response = Http::get('https://jsonplaceholder.typicode.com/posts/1/comments');
-        $httpData = array_map( function ($data){ return $data['body'];},$response->json());
-        array_unshift($httpData, 'Carpeta de Inversigación');
-        $excel = Importer::make('Excel');
-        $excel -> load($savePath . '20220504_203944-Carpeta investigacion prueba.xlsx');
-        $excelData = $excel->getCollection()->toArray();
-        for ($row=0; $row < sizeof($excelData); $row++) { 
-            $excelData[$row][]= $httpData[$row];
-        }
-        $collection = collect($excelData);
-        $excel = Exporter::make('Csv');
-        $excel->load($collection);
-        $excel->save($downloadPath . $filename .'.csv');
-        return response()->download($downloadPath . $filename .'.csv', $filename.'.csv', ['File-Name' =>  $filename . '.csv'])->deleteFileAfterSend();
         
     }
 }
