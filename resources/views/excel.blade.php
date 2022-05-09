@@ -63,6 +63,27 @@
             </div>
         </div>
     </div>
+    <!-- Export Modal -->
+    <div class="modal fade" id="exportModal" tabindex="-1" role="dialog" >
+        <div class="modal-dialog ">
+            <div class="modal-content">
+                <div class="modal-header justify-content-center">
+                    <h4 class="modal-title" >Validación de Carpetas de Investigación</h4>
+                </div>
+                <div class="bg-success text-center">
+                    Aviso
+                </div>
+                <div class="modal-body">
+                    <div class="text-center link-container">
+                        
+                    </div>
+                </div>
+                <div class="modal-footer justify-content-center">
+                    <button type="button" class="btn btn-secondary px-4" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
 @stop
 
 @section('css')
@@ -86,7 +107,7 @@
     $(function () {
 
         $('#sendButton').click(sendForm);
-
+        
         function sendForm() {
             $('.loader').show()
             $('#importModal').modal('hide')
@@ -107,7 +128,9 @@
                     var link=document.createElement('a');
                     link.href=window.URL.createObjectURL(res);
                     link.download= xhr.getResponseHeader("File-Name");
-                    link.click();
+                    link.innerHTML = '<p class="fs-4">Descargar archivo</p>'
+                    $('#exportModal .link-container').html(link);
+                    $('#exportModal').modal('show')
                 }
             })
         }
