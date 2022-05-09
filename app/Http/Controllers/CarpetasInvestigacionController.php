@@ -45,16 +45,21 @@ class CarpetasInvestigacionController extends Controller
                 $numRows = sizeof($collection);
                 $fileName =  basename($fileName, '.'.pathinfo($fileName, PATHINFO_EXTENSION));
                 $downloadPath = public_path('/download/');
+                //obteniendo informacion de api
                 $response = Http::get('https://jsonplaceholder.typicode.com/posts/1/comments');
                 $httpData = array_map( function ($data){ return $data['body'];},$response->json());
+                //agregando nombre de columna a la informacion de la api
                 array_unshift($httpData, 'Carpeta de Inversigación');
+                //incorporando información de la api a la información del archivo
                 for ($row=0; $row < $numRows; $row++) { 
                     $collection[$row][]= $httpData[$row];
                 }
                 $newCollection = collect($collection);
+                //creando nuevo archivo para exportar
                 $excel = Exporter::make('Excel');
                 $excel->load($newCollection);
                 $excel->save($downloadPath . $fileName .'.xlsx');
+                // exportando archivo
                 return response()->download($downloadPath . $fileName .'.xlsx', $fileName.'.xlsx', ['File-Name' =>  $fileName . '.xlsx'])->deleteFileAfterSend();
                 /* $response = Http::withHeaders([
                     'Accept-Encoding' => 'gzip, deflate, br',
