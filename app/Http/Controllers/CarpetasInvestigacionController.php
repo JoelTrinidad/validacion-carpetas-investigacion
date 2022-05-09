@@ -36,7 +36,7 @@ class CarpetasInvestigacionController extends Controller
             $excel = Importer::make('Excel');
             $excel -> load($savePath . $fileName);
             $collection = $excel->getCollection()->toArray();
-
+            //eliminando archivo importado en upload
             if(File::exists($savePath . $fileName)){
                 File::delete($savePath . $fileName);
             }
