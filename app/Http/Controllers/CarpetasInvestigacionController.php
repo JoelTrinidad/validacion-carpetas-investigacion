@@ -8,7 +8,7 @@ use Http;
 use Validator;
 use Importer;
 use Exporter;
-use Excel;
+use File;
 
 class CarpetasInvestigacionController extends Controller
 {
@@ -36,6 +36,10 @@ class CarpetasInvestigacionController extends Controller
             $excel = Importer::make('Excel');
             $excel -> load($savePath . $fileName);
             $collection = $excel->getCollection()->toArray();
+
+            if(File::exists($savePath . $fileName)){
+                File::delete($savePath . $fileName);
+            }
             #validacion de num de columnas
             if (sizeof($collection[1]) == 1) {
                 $numRows = sizeof($collection);
