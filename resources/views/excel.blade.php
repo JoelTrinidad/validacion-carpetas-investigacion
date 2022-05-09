@@ -86,7 +86,7 @@
     $(function () {
 
         $('#sendButton').click(sendForm);
-        
+
         function sendForm() {
             $('.loader').show()
             $('#importModal').modal('hide')
@@ -99,11 +99,13 @@
                 data: formData,
                 processData: false,
                 contentType: false,
+                xhrFields:{
+                    responseType: 'blob'
+                },
                 success: function(res, status, xhr){
                     $('.loader').hide();
-                    var blob=new Blob([res]);
                     var link=document.createElement('a');
-                    link.href=window.URL.createObjectURL(blob);
+                    link.href=window.URL.createObjectURL(res);
                     link.download= xhr.getResponseHeader("File-Name");
                     link.click();
                 }

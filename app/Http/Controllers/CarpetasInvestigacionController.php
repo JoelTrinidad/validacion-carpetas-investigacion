@@ -48,10 +48,10 @@ class CarpetasInvestigacionController extends Controller
                     $collection[$row][]= $httpData[$row];
                 }
                 $newCollection = collect($collection);
-                $excel = Exporter::make('Csv');
+                $excel = Exporter::make('Excel');
                 $excel->load($newCollection);
-                $excel->save($downloadPath . $fileName .'.csv');
-                return response()->download($downloadPath . $fileName .'.csv', $fileName.'.csv', ['File-Name' =>  $fileName . '.csv'])->deleteFileAfterSend();
+                $excel->save($downloadPath . $fileName .'.xlsx');
+                return response()->download($downloadPath . $fileName .'.xlsx', $fileName.'.xlsx', ['File-Name' =>  $fileName . '.xlsx'])->deleteFileAfterSend();
                 /* $response = Http::withHeaders([
                     'Accept-Encoding' => 'gzip, deflate, br',
                     'Content-Type' => 'application/json',
