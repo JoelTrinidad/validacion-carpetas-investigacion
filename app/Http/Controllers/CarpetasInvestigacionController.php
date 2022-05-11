@@ -9,6 +9,7 @@ use Validator;
 use Importer;
 use Exporter;
 use File;
+use Response;
 
 class CarpetasInvestigacionController extends Controller
 {
@@ -72,13 +73,13 @@ class CarpetasInvestigacionController extends Controller
                     'query' => 'query {consultaWS(carpeta:\"CI-FIIZP/IZP-6/UI-2 C/D/05211/10-2021\"){ingresa}}',
                 ]); */
             } else {
-                return redirect()->back()
-                        ->with(['errors'=>[0 => 'Please provide data in file no more than 1 colum.']]);
+                $errors = ['errors' => $validator->errors()];
+                return response($errors, 400);
             }
             
-        } else {
-            return redirect()->back()
-                    ->with(['errors'=>$validator->errors()->all()]);
+        }else {
+            $errors = ['errors' => $validator->errors()];
+            return response($errors, 400);
         }
         
     }
