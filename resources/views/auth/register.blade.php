@@ -13,7 +13,7 @@
             </select>
             <div class="input-group-append">
                 <div class="input-group-text">
-                    <span class="fas fa-user {{ config('adminlte.classes_auth_icon', '') }}"></span>
+                    <span class="fas fa-building {{ config('adminlte.classes_auth_icon', '') }}"></span>
                 </div>
             </div>
             
@@ -31,7 +31,7 @@
             
             <div class="input-group-append">
                 <div class="input-group-text">
-                    <span class="fas fa-user {{ config('adminlte.classes_auth_icon', '') }}"></span>
+                    <span class="fas fa-fingerprint {{ config('adminlte.classes_auth_icon', '') }}"></span>
                 </div>
             </div>
             
@@ -67,7 +67,7 @@
             
             <div class="input-group-append">
                 <div class="input-group-text">
-                    <span class="fas fa-user {{ config('adminlte.classes_auth_icon', '') }}"></span>
+                    <span class="fas fa-file-alt {{ config('adminlte.classes_auth_icon', '') }}"></span>
                 </div>
             </div>
             
