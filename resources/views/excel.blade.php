@@ -14,23 +14,14 @@
             <div class="card-body">
                 <form action="{{ route('import') }}" method="POST" enctype="multipart/form-data" id="excelForm">
                     @csrf
-                    @if (session('errors'))
-                        @foreach ($errors as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                        <br><br>
-                    @endif
-                    @if (session('success'))
-                        {{ session('success') }}
-                        <br><br>
-                    @endif
 
                     <div class="input-group mt-4 mb-3">
                         <div class="custom-file">
                             <input type="file" class="custom-file-input" name="file" id="file" >
                             <label class="custom-file-label" for="file">Subir archivo</label>
-                        </div> 
+                        </div>
                     </div>
+                    <ul id="errors" class="list-unstyled"></ul>
                     <div class="d-flex justify-content-center">
                         <button type="button" class="btn btn-primary " data-toggle="modal" data-backdrop="static" data-keyboard="false" data-target="#importModal">Subir archivo</button>
                     </div>
