@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 @section('content')
-    <div class="col-6 mx-auto pt-4">
+    <div class="col-md-6 mx-auto pt-4">
 
         <div class="loader"></div>
 

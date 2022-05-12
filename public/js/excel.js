@@ -47,11 +47,7 @@ $(function () {
                         }
                     }
                 } else {
-                    $('.content-wrapper').append('<div class="alert alert-danger alert-dismissible" id="errorAlert">Algo salió mal</div>')
-
-                    setTimeout(function() {
-                        $("#errorAlert").remove();
-                    }, 5000);
+                    $('.content-wrapper').append('<div class="alert alert-danger alert-dismissible col-md-6 col-lg-3 error-alert" id="errorAlert">Algo salió mal<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a></div>')
                 }
             }
         })
