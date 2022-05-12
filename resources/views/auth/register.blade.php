@@ -7,9 +7,9 @@
         <div class="input-group mb-3">
             <select name="dependencia" class="form-control @error('dependencia') is-invalid @enderror" value="{{ old('dependencia') }}" autofocus>
                 <option>-- Dependencia --</option>
-                <option value="ssc">SSC</option>
-                <option value="c5">C5</option>
-               
+                @foreach($dependencias as $dependencia)
+                    <option value="{{ $dependencia['clave'] }}">{{ $dependencia['valor'] }}</option>
+                @endforeach
             </select>
             <div class="input-group-append">
                 <div class="input-group-text">

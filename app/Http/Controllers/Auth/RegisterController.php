@@ -74,4 +74,18 @@ class RegisterController extends Controller
             'password' => Hash::make($data['password']),
         ]);
     }
+    public function showRegistrationForm()
+    {
+        $dependencias = [
+            [
+                'clave' => 'ssc',
+                'valor' => 'SSC'
+            ],
+            [
+                'clave' => 'c5',
+                'valor' => 'C5'
+            ],
+        ];
+        return view('auth.register', compact(('dependencias')));
+    }
 }
