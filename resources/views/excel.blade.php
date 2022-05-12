@@ -78,19 +78,7 @@
 @stop
 
 @section('css')
-    <style>
-        .loader {
-            display: none;
-            position: fixed;
-            left: 0px;
-            top: 0px;
-            width: 100%;
-            height: 100%;
-            z-index: 3;
-            background: url('images/loading.gif') 50% 50% no-repeat rgb(249,249,249);
-            opacity: .9;
-        }
-    </style>
+    <link rel="stylesheet" href="{{ asset('css/excel.css') }}">
 @stop
 
 @section('js')
