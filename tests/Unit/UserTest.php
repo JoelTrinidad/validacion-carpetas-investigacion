@@ -74,13 +74,13 @@ class UserTest extends TestCase
         
     }
 
-/*     public function testUserCannotViewARegistrationFormWhenAuthenticated()
+    public function test_user_can_view_registration_form_when_authenticated()
     {
-        $user = User::factory()->make();
+        $user = factory(User::class)->make();
 
         $response = $this->actingAs($user)->get('register');
 
         $response->assertSuccessful();
         $response->assertViewIs('auth.register');
-    } */
+    }
 }
