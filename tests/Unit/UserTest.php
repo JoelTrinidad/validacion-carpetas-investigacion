@@ -5,6 +5,8 @@ namespace Tests\Unit;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
+use App\User;
+
 class UserTest extends TestCase
 {
     use RefreshDatabase;
@@ -21,5 +23,12 @@ class UserTest extends TestCase
         $response->assertViewIs('auth.login');
     }
 
+    public function test_user_cannot_view_a_login_form_when_authenticated()
+    {
+        $user = factory(User::class)->make();
 
+        $response = $this->actingAs($user)->get('/login');
+
+        $response->assertRedirect('/');
+    }
 }
