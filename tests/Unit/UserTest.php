@@ -83,4 +83,27 @@ class UserTest extends TestCase
         $response->assertSuccessful();
         $response->assertViewIs('auth.register');
     }
+
+    public function test_user_can_register()
+    {
+        $user = factory(User::class)->create([
+            'password' => Hash::make('user1234'),
+        ]);
+
+        $response = $this->actingAs($user)->post('/register', [
+            'dependencia' => 'ssc',
+            'curp' => 'PERC561125MSPRMT03',
+            'email' => 'user@yopmail.com',
+            'oficio_alta' => 'oficio de alta',
+            'password' => 'user1234',
+            'password_confirmation' => 'user1234',
+        ]);
+
+        $response->assertRedirect('/');
+        $this->assertCount(2, $users = User::all());
+        $user = $users->last();
+        $this->assertEquals('PERC561125MSPRMT03', $user->curp);
+        $this->assertEquals('user@yopmail.com', $user->email);
+        $this->assertTrue(Hash::check('user1234', $user->password));
+    }
 }
