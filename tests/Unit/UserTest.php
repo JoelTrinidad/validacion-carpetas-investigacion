@@ -65,4 +65,22 @@ class UserTest extends TestCase
         $this->assertFalse(session()->hasOldInput('password'));
         $this->assertGuest();
     }
+
+    public function test_user_cannot_view_registration_form()
+    {
+        $response = $this->get('register');
+
+        $response->assertRedirect('/login');
+        
+    }
+
+/*     public function testUserCannotViewARegistrationFormWhenAuthenticated()
+    {
+        $user = User::factory()->make();
+
+        $response = $this->actingAs($user)->get('register');
+
+        $response->assertSuccessful();
+        $response->assertViewIs('auth.register');
+    } */
 }
