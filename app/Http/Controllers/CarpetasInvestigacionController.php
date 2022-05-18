@@ -73,7 +73,7 @@ class CarpetasInvestigacionController extends Controller
                     'query' => 'query {consultaWS(carpeta:\"CI-FIIZP/IZP-6/UI-2 C/D/05211/10-2021\"){ingresa}}',
                 ]); */
             } else {
-                $errors = ['errors' => $validator->errors()];
+                $errors = ['errors' => ['file' => ['Please upload a file with 1 colum']]];
                 return response($errors, 400);
             }
             
