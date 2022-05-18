@@ -24,7 +24,7 @@ class CarpetasInvestigacionController extends Controller
 
     public function importExcel(Request $request){
         $validator = Validator::make($request -> all(), [
-            'file' => ['required']
+            'file' => ['required', 'mimes:xlsx']
         ]);
         if ($validator->passes()) {
             #guardo archivo
