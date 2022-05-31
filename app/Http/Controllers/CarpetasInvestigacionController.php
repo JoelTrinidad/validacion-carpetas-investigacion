@@ -35,7 +35,15 @@ class CarpetasInvestigacionController extends Controller
             File::delete($savePath . $fileName);
         }
         #validacion de num de columnas
-        if (sizeof($collection[1]) == 1) {
+        $hasOneColum = true;
+        foreach ($collection as &$dataRow) {
+            $dataRow = array_filter($dataRow);
+            if (sizeof($dataRow) !== 1) {
+                $hasOneColum = false;
+                break;
+            };
+        }
+        if ($hasOneColum) {
             $numRows = sizeof($collection);
             $fileName =  basename($fileName, '.'.pathinfo($fileName, PATHINFO_EXTENSION));
             $downloadPath = public_path('/download/');
@@ -70,5 +78,38 @@ class CarpetasInvestigacionController extends Controller
             return response($errors, 400);
         }
         
+    }
+
+    public function timeout(ImportFileRequest $request){
+                #guardo archivo
+                $dataTime = date('Ymd_His');
+                $file = $request -> file('file');
+                $fileName = $dataTime . '-' . $file -> getClientOriginalName();
+                $savePath = public_path('/upload/');
+                $file -> move($savePath, $fileName);
+                #leyendo archivo
+                $excel = Importer::make('Excel');
+                $excel -> load($savePath . $fileName);
+                $data = $excel->getCollection()->toArray();
+                //eliminando archivo importado en upload
+                if(File::exists($savePath . $fileName)){
+                    File::delete($savePath . $fileName);
+                }
+                #validacion de num de columnas
+                $hasOneColum = true;
+                foreach ($data as &$dataRow) {
+                    $dataRow = array_filter($dataRow);
+                    if (sizeof($dataRow) !== 1) {
+                        $hasOneColum = false;
+                        break;
+                    };
+                }
+                if ($hasOneColum) {
+                    return sizeof($data) - 1;
+                    
+                } else {
+                    $errors = ['errors' => ['file' => ['Please upload a file with 1 colum']]];
+                    return response($errors, 400);
+                }
     }
 }
