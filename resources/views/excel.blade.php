@@ -43,7 +43,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="text-center">
-                        <p>El tiempo de procesamiento y búsqueda puede ser demasiado largo</p>
+                        <p>El tiempo de procesamiento y búsqueda aproximado es de <span id="timeout"></span> mimutos.</p>
                         <p>¿Desea continuar?</p>
                     </div>
                 </div>
