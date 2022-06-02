@@ -12,7 +12,7 @@
                 Subir el archivo con los folios 
             </div>
             <div class="card-body">
-                <form action="{{ route('import') }}" method="POST" enctype="multipart/form-data" id="excelForm">
+                <form action="{{ route('prueba') }}" method="POST" enctype="multipart/form-data" id="excelForm">
                     @csrf
 
                     <div class="input-group mt-4 mb-3">
@@ -49,7 +49,7 @@
                 </div>
                 <div class="modal-footer justify-content-center">
                     <button type="button" class="btn btn-secondary px-4" data-dismiss="modal">No</button>
-                    <button type="button" id="sendButton" form="excelForm" class="btn btn-success px-4">Si</button>
+                    <button type="submit" id="sendButton" form="excelForm" class="btn btn-success px-4">Si</button>
                 </div>
             </div>
         </div>
