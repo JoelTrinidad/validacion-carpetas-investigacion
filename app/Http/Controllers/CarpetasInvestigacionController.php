@@ -48,7 +48,6 @@ class CarpetasInvestigacionController extends Controller
             $downloadPath = public_path('/download/');
             //separando el renglon de los nombres de las columnas y agregando el nombre de la segunda columna
             $collectionHeader = array_shift($collection);
-            array_push($collectionHeader, 'Carpeta de Inversigación');
             //obteniendo informacion de api
             $collection = array_map( function ($data){
                 $response = Http::withBody('{"query": "query {consultaWS(carpeta:\"'. $data[0] .'\"){ingresa}}"}', 'application/json')->post(env('ENDPOINT'))->json();
