@@ -12,6 +12,7 @@
                 Subir el archivo con los folios 
             </div>
             <div class="card-body">
+                <p><a href="{{ asset('download/archivo-ejemplo.xlsx') }}" download="archivo-ejemplo" class="download-file font-weight-bold">Descargar archivo de ejemplo</a></p>
                 <form action="{{ route('import') }}" method="POST" enctype="multipart/form-data" id="excelForm">
                     @csrf
 
