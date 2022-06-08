@@ -68,35 +68,27 @@ class CarpetasInvestigacionController extends Controller
     }
 
     public function timeout(ImportFileRequest $request){
-                #guardo archivo
-                $dataTime = date('Ymd_His');
-                $file = $request -> file('file');
-                $fileName = $dataTime . '-' . $file -> getClientOriginalName();
-                $savePath = public_path('/upload/');
-                $file -> move($savePath, $fileName);
-                #leyendo archivo
-                $excel = Importer::make('Excel');
-                $excel -> load($savePath . $fileName);
-                $data = $excel->getCollection()->toArray();
-                //eliminando archivo importado en upload
-                if(File::exists($savePath . $fileName)){
-                    File::delete($savePath . $fileName);
-                }
-                #validacion de num de columnas
-                $hasOneColum = true;
-                foreach ($data as &$dataRow) {
-                    $dataRow = array_filter($dataRow);
-                    if (sizeof($dataRow) !== 1) {
-                        $hasOneColum = false;
-                        break;
-                    };
-                }
-                if ($hasOneColum) {
-                    return sizeof($data) - 1;
-                    
-                } else {
-                    $errors = ['errors' => ['file' => ['Please upload a file with 1 colum']]];
-                    return response($errors, 400);
-                }
+        #guardo archivo
+        $dataTime = date('Ymd_His');
+        $file = $request -> file('file');
+        $fileName = $dataTime . '-' . $file -> getClientOriginalName();
+        $data = Excel::toArray(new FileImport, $file);
+        $data = array_pop($data);
+        #validacion de num de columnas
+        $hasOneColum = true;
+        foreach ($data as &$dataRow) {
+            $dataRow = array_filter($dataRow);
+            if (sizeof($dataRow) > 1) {
+                $hasOneColum = false;
+            };
+        }
+        $data = array_filter($data);
+        if ($hasOneColum) {
+            return sizeof($data) - 1;
+            
+        } else {
+            $errors = ['errors' => ['file' => ['Please upload a file with 1 colum']]];
+            return response($errors, 400);
+        }
     }
 }
