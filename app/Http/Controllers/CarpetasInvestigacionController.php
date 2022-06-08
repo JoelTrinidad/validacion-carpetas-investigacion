@@ -3,12 +3,10 @@
 namespace App\Http\Controllers;
 
 use Http;
-use Importer;
-use Exporter;
-use File;
 use Excel;
 use App\Http\Requests\ImportFileRequest;
 use App\Imports\FileImport;
+use App\Exports\FileExport;
 
 class CarpetasInvestigacionController extends Controller
 {
@@ -39,7 +37,6 @@ class CarpetasInvestigacionController extends Controller
         $collection = array_filter($collection);
         if ($hasOneColum) {
             $fileName =  basename($fileName, '.'.pathinfo($fileName, PATHINFO_EXTENSION));
-            $downloadPath = public_path('/download/');
             //separando el renglon de los nombres de las columnas y agregando el nombre de la segunda columna
             $collectionHeader = array_shift($collection);
             //obteniendo informacion de api
@@ -54,13 +51,9 @@ class CarpetasInvestigacionController extends Controller
             },$collection);
             //reintegrando la columna de los nombres de las columnas
             array_unshift($collection, $collectionHeader);
-            //creando nuevo archivo para exportar
-            $newCollection = collect($collection);
-            $excel = Exporter::make('Excel');
-            $excel->load($newCollection);
-            $excel->save($downloadPath . $fileName .'.xlsx');
-            // exportando archivo
-            return response()->download($downloadPath . $fileName .'.xlsx', $fileName.'.xlsx', ['File-Name' =>  $fileName . '.xlsx'])->deleteFileAfterSend();
+            //exportando archivo
+            $export = new FileExport($collection);
+            return Excel::download($export, $fileName.'.xlsx', \Maatwebsite\Excel\Excel::XLS, ['File-Name' =>  $fileName . '.xlsx']);
         } else {
             $errors = ['errors' => ['file' => ['Please upload a file with 1 colum']]];
             return response($errors, 400);
