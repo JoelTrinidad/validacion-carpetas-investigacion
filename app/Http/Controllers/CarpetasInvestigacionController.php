@@ -6,7 +6,9 @@ use Http;
 use Importer;
 use Exporter;
 use File;
+use Excel;
 use App\Http\Requests\ImportFileRequest;
+use App\Imports\FileImport;
 
 class CarpetasInvestigacionController extends Controller
 {
@@ -24,25 +26,17 @@ class CarpetasInvestigacionController extends Controller
         $dataTime = date('Ymd_His');
         $file = $request -> file('file');
         $fileName = $dataTime . '-' . $file -> getClientOriginalName();
-        $savePath = public_path('/upload/');
-        $file -> move($savePath, $fileName);
-        #leyendo archivo
-        $excel = Importer::make('Excel');
-        $excel -> load($savePath . $fileName);
-        $collection = $excel->getCollection()->toArray();
-        //eliminando archivo importado en upload
-        if(File::exists($savePath . $fileName)){
-            File::delete($savePath . $fileName);
-        }
+        $collection = Excel::toArray(new FileImport, $file);
+        $collection = array_pop($collection);
         #validacion de num de columnas
         $hasOneColum = true;
         foreach ($collection as &$dataRow) {
             $dataRow = array_filter($dataRow);
-            if (sizeof($dataRow) !== 1) {
+            if (sizeof($dataRow) > 1) {
                 $hasOneColum = false;
-                break;
             };
         }
+        $collection = array_filter($collection);
         if ($hasOneColum) {
             $fileName =  basename($fileName, '.'.pathinfo($fileName, PATHINFO_EXTENSION));
             $downloadPath = public_path('/download/');
