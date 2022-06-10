@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Log;
 use Http;
 use Excel;
 use App\Http\Requests\ImportFileRequest;
@@ -50,6 +51,7 @@ class CarpetasInvestigacionController extends Controller
                     }
                 } catch (\Throwable $th) {
                     array_push($data, 'Ocurrio un error en la consulta');
+                    Log::channel('ws-request')->warning("Error al realizar la consulta.", ['carpeta' => $data[0], 'Error' => $th->getMessage()] );
                 }
                 return $data;
             },$collection);
