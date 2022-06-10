@@ -99,6 +99,12 @@ return [
         'emergency' => [
             'path' => storage_path('logs/laravel.log'),
         ],
+        'ws-request' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/ws-request.log'),
+            'level' => 'debug',
+            'days' => 0,
+        ]
     ],
 
 ];
