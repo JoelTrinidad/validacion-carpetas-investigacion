@@ -41,11 +41,15 @@ class CarpetasInvestigacionController extends Controller
             $collectionHeader = array_shift($collection);
             //obteniendo informacion de api
             $collection = array_map( function ($data){
-                $response = Http::withBody('{"query": "query {consultaWS(carpeta:\"'. $data[0] .'\"){ingresa}}"}', 'application/json')->post(env('ENDPOINT'))->json();
-                if ($response['data']['consultaWS']['ingresa'] === true) {
-                    array_push($data, 'Carpeta  encontrada');
-                } else if($response['data']['consultaWS']['ingresa'] === false){
-                    array_push($data, 'Carpeta no encontrada');
+                try {
+                    $response = Http::withBody('{"query": "query {consultaWS(carpeta:\"'. $data[0] .'\"){ingresa}}"}', 'application/json')->post(env('ENDPOINT'))->json();
+                    if ($response['data']['consultaWS']['ingresa'] === true) {
+                        array_push($data, 'Carpeta  encontrada');
+                    } else if($response['data']['consultaWS']['ingresa'] === false){
+                        array_push($data, 'Carpeta no encontrada');
+                    }
+                } catch (\Throwable $th) {
+                    array_push($data, 'Ocurrio un error en la consulta');
                 }
                 return $data;
             },$collection);
